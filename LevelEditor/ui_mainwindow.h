@@ -81,14 +81,14 @@ public slots:
     void newQuestion(){
         questionWidgets.append(new QuestionAnswerWidget(centralWidget));
         questionLayout->addWidget((questionWidgets.last()));
-        connect(questionWidgets.last()->remove, SIGNAL(clicked(bool)), this, SLOT(removeTextWidget()));
+        connect(questionWidgets.last()->remove, SIGNAL(clicked(bool)), this, SLOT(removeQuestionWidget()));
     }
     void removeTextWidget(){
-        delete textWidgets.last();
+        textWidgets.last()->hide();
         textWidgets.removeLast();
     }
     void removeQuestionWidget(){
-        delete questionWidgets.last();
+        questionWidgets.last()->hide();
         questionWidgets.removeLast();
     }
 
