@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -32,6 +32,9 @@ HEADERS += \
         mainwindow.h \
     levelreader.h \
     ui_mainwindow.h
+
+DISTFILES += \
+    plan.txt
 
 
 

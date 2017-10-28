@@ -27,11 +27,24 @@ public:
     explicit LevelReader(QString filename, QObject *parent = 0);
     bool isEOF();
     void readLevel(int index);
+    int getListsize();
+    int getQListsize(){
+        return questionList.size();
+    }
+
+    textFormat formatLAt(int i){
+        return formatList.at(i);
+    }
+    QString textLAt(int i){
+        return textList.at(i);
+    }
+    QA questionLAt(int i){
+        return questionList.at(i);
+    }
 
     QString background, audio, time;
-    QString level;
     QList<textFormat> formatList;
-    QList<QString> textList;
+    QList<QString> textList, levels;
     QList<QA> questionList;
 
 signals:
@@ -49,6 +62,7 @@ private:
         questionList.clear();
     }
 
+    QString level;
     QFile *levelFile;
     QTextStream *input;
     int currentLevel = 0;

@@ -3,8 +3,9 @@
 LevelReader::LevelReader(QString filename, QObject *parent) : QObject(parent)
 {
     levelFile = new QFile(filename);
-    levelFile->open(QIODevice::ReadOnly);
+    levelFile->open(QIODevice::ReadOnly|QIODevice::Text);
     input = new QTextStream(levelFile);
+    levels = input->readAll().split('\n');
 }
 
 bool LevelReader::isEOF()
@@ -15,17 +16,9 @@ bool LevelReader::isEOF()
 void LevelReader::readLevel(int index)
 {
     clear();
-    QFile f("levels.csv");
-    f.open(QIODevice::ReadOnly);
-    QTextStream in(&f);
-    while(currentLevel<index){
-        level = in.readLine();
-        if(level.isEmpty()){
-            eof = true;
-            break;
-        }
-        currentLevel++;
-    }
+//    level = input->readAll();
+    level = levels.at(index);
+    qDebug()<<level;
     QList<QString> leveldata = level.split(";");
     QList<QString> metadata = leveldata.first().split("|");
     QList<QString> texts = leveldata.at(1).split("|");
@@ -35,7 +28,6 @@ void LevelReader::readLevel(int index)
     background = metadata.at(2);
     audio = metadata.at(3);
     QList<QString> tmp = metadata.last().split(":");
-    QList<textFormat> formatList;
     for(int i = 0; i < tmp.size(); i++){
         QList<QString> formats = tmp.at(i).split("-");
         textFormat format;
@@ -47,9 +39,7 @@ void LevelReader::readLevel(int index)
         formatList.append(format);
     }
 
-    for(int i = 0; i < texts.size(); i++){
-        textList.append(texts.at(i));
-    }
+    textList = texts;
 
     for(int i = 0; i < questions.size(); i++){
         tmp = questions.at(i).split("(").last().split(")").first().split(":");
@@ -60,8 +50,12 @@ void LevelReader::readLevel(int index)
         qa.a3 = tmp.at(2);
         questionList.append(qa);
     }
-    qDebug()<<currentLevel<<index<<level;
 
+}
+
+int LevelReader::getListsize()
+{
+    return textList.size();
 }
 
 

@@ -3,6 +3,7 @@
 
 
 #include <QMainWindow>
+#include <QSound>
 #include <QTimer>
 #include <QThread>
 #include "levelreader.h"
@@ -24,13 +25,15 @@ private slots:
     void on_quitButton_clicked();
     void on_startButton_clicked();
     void displayText();
-    void gameTimer_timeout();
-
-
+    void lost();
 private:
+
+    QThread *myThread;
+    int index = 1;
     Ui::MainWindow *ui;
     LevelReader *levelReader;
     QTimer *gameTimer;
+    QSound *music;
 
 };
 
