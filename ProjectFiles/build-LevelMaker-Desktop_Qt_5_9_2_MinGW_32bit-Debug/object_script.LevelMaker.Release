@@ -1,0 +1,12 @@
+INPUT(
+./release\main.o
+./release\mainwindow.o
+./release\metadatawidget.o
+./release\textwidget.o
+./release\questionanswerwidget.o
+./release\moc_mainwindow.o
+./release\moc_ui_mainwindow.o
+./release\moc_metadatawidget.o
+./release\moc_textwidget.o
+./release\moc_questionanswerwidget.o
+);

@@ -1,0 +1,12 @@
+INPUT(
+./debug\main.o
+./debug\mainwindow.o
+./debug\metadatawidget.o
+./debug\textwidget.o
+./debug\questionanswerwidget.o
+./debug\moc_mainwindow.o
+./debug\moc_ui_mainwindow.o
+./debug\moc_metadatawidget.o
+./debug\moc_textwidget.o
+./debug\moc_questionanswerwidget.o
+);
