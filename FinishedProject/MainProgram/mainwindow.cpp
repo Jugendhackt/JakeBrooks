@@ -22,7 +22,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(gameTimer, SIGNAL(timeout()), this , SLOT(gametick()));
     myThread = new QThread(this);
     this->moveToThread(myThread);
-    ui->foreGround->setText("hallo");
     ui->backGround->setPixmap(QPixmap::fromImage(QImage("./Textures/startscreen.png").scaled(width(), height())));
     ui->quitButton->setStyleSheet("background: darkgray");
     ui->startButton->setStyleSheet("background: darkgray");
@@ -72,7 +71,7 @@ void MainWindow::gametick()
                 QString text = levelReader->textLAt(idx);
                 double size = levelReader->formatLAt(idx).textsize;
                 QColor textcolor(levelReader->formatLAt(idx).color.name());
-                textcolor.setAlpha(levelReader->formatLAt(idx).alpha);
+                textcolor.setAlpha(levelReader->formatLAt(idx).alpha*2.55);
                 QPalette p(ui->foreGround->palette());
                 p.setColor(QPalette::WindowText, textcolor);
                 font.setPointSize(size);
@@ -118,8 +117,11 @@ void MainWindow::gametick()
                     font.setPointSize(30);
                     QPalette p(ui->foreGround->palette());
                     p.setColor(QPalette::WindowText, QColor(Qt::white));
+                    ui->foreGround->setPalette(p);
                     ui->foreGround->setFont(font);
-                    ui->foreGround->setText(levelReader->questionLAt(idx).question);
+                    QString question = levelReader->questionLAt(idx).question;
+                    qDebug()<<question;
+                    ui->foreGround->setText(question);
                     ui->answer1->setText(levelReader->questionLAt(idx).a1);
                     ui->answer2->setText(levelReader->questionLAt(idx).a2);
                     ui->answer3->setText(levelReader->questionLAt(idx).a3);
@@ -137,29 +139,43 @@ void MainWindow::gametick()
                 playLevel();
             }
         }
-        if(!start){
-            if(ui->answer1->isChecked() && !levelReader->questionLAt(idx).a1.isEmpty()){
+        if(!start && levelReader->questionLAt(idx).a1 == ""){
+            if(ui->answer1->isChecked()){
                 index +=1;
                 idx +=1;
                 start = true;
                 ui->answer1->setChecked(false);
                 ui->answer1->hide();
+                ui->answer2->hide();
+                ui->answer3->hide();
             }
-            else if(ui->answer2->isChecked() && !levelReader->questionLAt(idx).a2.isEmpty()){
+            else if(ui->answer2->isChecked()){
                 index +=2;
                 idx +=1;
                 start = true;
                 ui->answer2->setChecked(false);
+                ui->answer1->hide();
                 ui->answer2->hide();
+                ui->answer3->hide();
             }
-            else if(ui->answer3->isChecked() && !levelReader->questionLAt(idx).a3.isEmpty()){
+            else if(ui->answer3->isChecked()){
                 index +=3;
                 idx +=1;
                 start = true;
                 ui->answer3->setChecked(false);
+                ui->answer1->hide();
+                ui->answer2->hide();
                 ui->answer3->hide();
             }
         }
+//        else if(levelReader->questionLAt(idx).a1 == ""){
+//            index +=1;
+//            idx +=1;
+//            start = true;
+//            ui->answer1->hide();
+//            ui->answer2->hide();
+//            ui->answer3->hide();
+//        }
         qDebug()<<start;
     }
 }
